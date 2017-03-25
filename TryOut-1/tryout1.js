@@ -1,8 +1,8 @@
 var fs = require('fs');
 fs.readFile(process.argv[2], 'utf8', function(err, data) {
     if (err) throw err;
-
-    var allWords = data.trim();
+    var allWords = regex(data);
+    allWords = allWords.trim();
     allWords = allWords.split(" ");
     console.log("Jumlah semua kata: " + allWords.length);
     console.log("Jumlah kata yang unik: " + countUniqueWords(allWords).length);
@@ -10,6 +10,10 @@ fs.readFile(process.argv[2], 'utf8', function(err, data) {
     console.log("Ada " + isNumeric(countUniqueWords(allWords)).length + " angka: " + isNumeric(countUniqueWords(allWords)));
     console.log("Jumlah semua angka: " + addUniqueNumbers(isNumeric(countUniqueWords(allWords))));
 });
+
+function regex(data) {
+    return data.replace(/(~|`|!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g,"");
+}
 
 function countUniqueWords(data) {
     let unique = [...new Set(data.map(item => item))];
