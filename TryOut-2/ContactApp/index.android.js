@@ -14,6 +14,16 @@ import ListData from './components/ListData';
 import FormData from './components/FormData';
 import DetailData from './components/DetailData';
 
+export default class ContactApp extends Component {
+    render() {
+        return(
+            <ListData
+                trigger={this.props.navigation}
+            />
+        );
+    }
+}
+
 const App = StackNavigator({
     List: { screen: ListData },
     Form: { screen: FormData },

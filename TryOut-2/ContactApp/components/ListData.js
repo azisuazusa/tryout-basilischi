@@ -24,7 +24,6 @@ export default class ListData extends Component {
                     stores.map((result, i, store) => {
                         data.push(JSON.parse(store[i][1]))
                     });
-                    console.log(data);
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows(data)
                     });
@@ -66,12 +65,20 @@ export default class ListData extends Component {
     render() {
         return (
             <View style={GeneralStyle.container}>
-                <Button
-                    onPress={() => this.props.navigation.navigate('Form', {phoneNumber: ''})}
-                    title="Add"
-                    color="#2244ff"
-                    accessibilityLabel="Add New Contact"
-                />
+                <View style={styles.buttonView}>
+                    <Button
+                        onPress={() => this.getAllData()}
+                        title="Refresh"
+                        color="#22ff44"
+                        accessibilityLabel="Refresh Data"
+                    />
+                    <Button
+                        onPress={() => this.props.navigation.navigate('Form', {phoneNumber: ''})}
+                        title="Add"
+                        color="#2244ff"
+                        accessibilityLabel="Add New Contact"
+                    />
+                </View>
                 <ScrollView>
                     <ListView
                     dataSource={this.state.dataSource}
@@ -94,4 +101,10 @@ const styles = StyleSheet.create({
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#8E8E8E',
     },
+    buttonView: {
+        flexDirection: 'row',
+        backgroundColor: '#F5FCFF',
+        justifyContent: 'space-between',
+        marginTop: 10
+    }
 });
