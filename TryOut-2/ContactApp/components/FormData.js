@@ -48,15 +48,59 @@ export default class FormData extends Component {
         }
     }
 
+    validation() {
+        var error = [];
+        if (this.state.firstName == '') {
+            error.push(1);
+        }
+        if (this.state.lastName == '') {
+            error.push(2);
+        }
+        if (this.state.organization == '') {
+            error.push(3);
+        }
+        if (isNaN(parseFloat(this.state.phoneNumber)) && !isFinite(this.state.phoneNumber) || this.state.phoneNumber == '') {
+            error.push(4);
+        }
+        if (this.state.address == '') {
+            error.push(5);
+        }
+        return error;
+    }
+
     async saveData() {
         const self = this;
-        try {
-            await AsyncStorage.setItem(self.state.phoneNumber, JSON.stringify(self.state), function (error){
-                ToastAndroid.show('Your contact has been successfully saved', ToastAndroid.SHORT);
-                self.props.navigation.goBack();
-            });
-        } catch (e) {
-            console.log(e);
+        if (this.validation().length < 1) {
+            try {
+                await AsyncStorage.setItem(self.state.phoneNumber, JSON.stringify(self.state), function (error){
+                    ToastAndroid.show('Your contact has been successfully saved', ToastAndroid.SHORT);
+                    self.props.navigation.goBack();
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            for (var i = 0; i < this.validation().length; i++) {
+                switch (this.validation()[i]) {
+                    case 1:
+                        ToastAndroid.show('Please fill out the firstname\'s field!', ToastAndroid.SHORT);
+                        break;
+                    case 2:
+                        ToastAndroid.show('Please fill out the lastname\'s field!', ToastAndroid.SHORT);
+                        break;
+                    case 3:
+                        ToastAndroid.show('Please fill out the organization\'s field!', ToastAndroid.SHORT);
+                        break;
+                    case 4:
+                        ToastAndroid.show('Please fill out the phone number\'s field with numeric value!', ToastAndroid.SHORT);
+                        break;
+                    case 5:
+                        ToastAndroid.show('Please fill out the address\'s field!', ToastAndroid.SHORT);
+                        break;
+                    default:
+
+                }
+            }
         }
     }
 
